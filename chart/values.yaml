@@ -1,0 +1,217 @@
+
+global:
+  imageRegistry: ""
+  imagePullSecrets: []
+  defaultStorageClass: ""
+  postgresql:
+    auth:
+      username: joplin
+      password: joplin
+      database: joplin
+
+server:
+  image:
+    registry: docker.io
+    repository: joplin/server
+    tag: 3.0.1-beta
+    pullPolicy: IfNotPresent
+    pullSecrets: []
+    debug: false
+  resourcesPreset: "small"
+  replicaCount: 1
+  containerPorts:
+    joplin: 22300
+  storage:
+    enabled: false
+    enableDbFallback: false
+    existingClaim: ""
+    volumeName: ""
+    mountPath: /data
+    subPath: "files"
+  podSecurityContext:
+    enabled: true
+    fsGroupChangePolicy: Always
+    fsGroup: 1001
+  containerSecurityContext:
+    enabled: true
+    seLinuxOptions: {}
+    runAsUser: 1001
+    runAsGroup: 1001
+    runAsNonRoot: true
+    privileged: false
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop: ["ALL"]
+    seccompProfile:
+      type: "RuntimeDefault"
+  networkPolicy:
+    allowExternal: false
+    allowExternalEgress: false
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 20
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 20
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+  startupProbe:
+    enabled: false
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 1
+    failureThreshold: 15
+    successThreshold: 1
+  customLivenessProbe: {}
+  customReadinessProbe: {}
+  customStartupProbe: {}
+  nodeAffinityPreset:
+    type: ""
+    key: ""
+    values: []
+  affinity: {}
+  autoscaling:
+    vpa:
+      enabled: false
+      annotations: {}
+      controlledResources: []
+      maxAllowed: {}
+      minAllowed: {}
+      updatePolicy:
+        updateMode: Auto
+    hpa:
+      enabled: false
+      minReplicas: ""
+      maxReplicas: ""
+      targetCPU: ""
+      targetMemory: ""
+  service:
+    type: ClusterIP
+    ports:
+      joplin: 22300
+    nodePorts:
+      joplin: ""
+    clusterIP: ""
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+    externalTrafficPolicy: Cluster
+    annotations: {}
+    extraPorts: []
+    sessionAffinity: None
+    sessionAffinityConfig: {}
+  externalURL: ""
+  ingress:
+    enabled: false
+    annotations: {}
+    hostname: ""
+    path: "/"
+    pathType: Prefix
+    tls: []
+
+postgresql:
+  enabled: true
+  image:
+    tag: 16.4.0-debian-12-r21
+  primary:
+    resourcesPreset: "small"
+    primary:
+      persistence:
+        enabled: true
+        size: 2Gi
+      networkPolicy:
+        allowExternal: false
+        allowExternalEgress: false
+  metrics:
+    enabled: false
+    prometheusRule:
+      enabled: false
+      namespace: ""
+
+backup:
+  enabled: false
+  schedule: "@daily"
+  image:
+    registry: docker.io
+    repository: prodrigestivill/postgres-backup-local
+    tag: 16-alpine-234f538
+    pullPolicy: IfNotPresent
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+  startupProbe:
+    enabled: false
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 1
+    failureThreshold: 15
+    successThreshold: 1
+  resourcesPreset: "nano"
+  podSecurityContext:
+    enabled: true
+    fsGroupChangePolicy: Always
+    fsGroup: 1001
+  containerSecurityContext:
+    enabled: true
+    seLinuxOptions: {}
+    runAsUser: 1001
+    runAsGroup: 1001
+    runAsNonRoot: true
+    privileged: false
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop: ["ALL"]
+    seccompProfile:
+      type: "RuntimeDefault"
+  persistence:
+    enabled: true
+    size: 2Gi
+  networkPolicy:
+    allowExternal: false
+    allowExternalEgress: false
+
+serviceAccount:
+  create: true
+  name: ""
+  annotations: {}
+  automountServiceAccountToken: true
+
+volumePermissions:
+  enabled: false
+  image:
+    registry: docker.io
+    repository: bitnami/os-shell
+    tag: 12-debian-12-r21
+    pullPolicy: IfNotPresent
+    pullSecrets: []
+  resourcesPreset: "nano"
+  resources: {}
+  containerSecurityContext:
+    enabled: true
+    seLinuxOptions: {}
+    runAsUser: 0
+
+diagnosticMode:
+  enabled: false
+  command:
+    - sleep
+  args:
+    - infinity
