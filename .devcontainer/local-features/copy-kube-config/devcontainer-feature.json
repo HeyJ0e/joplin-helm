@@ -1,11 +1,12 @@
 {
-	"id": "copy-kube-config",
-	"name": "Copies kube config files",
-	"options": {
-		"username": {
-			"type": "string",
-			"default": "",
-			"description": "Enter name of non-root user to configure or blank to use remoteUser"
-		}
-	}
+  "id": "copy-kube-config",
+  "version": "1.0.0",
+  "name": "Copies kube config files",
+  "options": {
+    "username": {
+      "type": "string",
+      "default": "",
+      "description": "Enter name of non-root user to configure or blank to use remoteUser"
+    }
+  }
 }
