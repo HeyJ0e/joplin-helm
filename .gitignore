@@ -25,7 +25,6 @@ __snapshot__
 
 # IDEs
 .idea
-.vscode
 
 # Misc
 Chart.lock
