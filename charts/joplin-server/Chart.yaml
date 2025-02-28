@@ -16,6 +16,6 @@ dependencies:
   repository: oci://registry-1.docker.io/bitnamicharts
   version: 2.x.x
 - name: postgresql
-  repository: https://charts.bitnami.com/bitnami
+  repository: oci://registry-1.docker.io/bitnamicharts
   version: ~15.5.0
   condition: postgresql.enabled
