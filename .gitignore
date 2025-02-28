@@ -15,6 +15,7 @@ gh-pages.zip
 # Outputs directories
 dist/
 repo/
+charts/*/charts
 
 # Unit test for helm
 __snapshot__

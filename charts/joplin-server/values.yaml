@@ -20,19 +20,20 @@ server:
   replicaCount: 1
   containerPorts:
     joplin: 22300
+  appBaseURL: "http://localhost:22300"
   storage:
     enabled: false
-    enableDbFallback: false
+    enableDbFallback: true
     existingClaim: ""
     volumeName: ""
     mountPath: /data
     subPath: "files"
   podSecurityContext:
-    enabled: true
+    enabled: false
     fsGroupChangePolicy: Always
     fsGroup: 1001
   containerSecurityContext:
-    enabled: true
+    enabled: false
     seLinuxOptions: {}
     runAsUser: 1001
     runAsGroup: 1001
@@ -62,7 +63,7 @@ server:
     failureThreshold: 6
     successThreshold: 1
   startupProbe:
-    enabled: false
+    enabled: true
     initialDelaySeconds: 10
     periodSeconds: 10
     timeoutSeconds: 1
@@ -105,7 +106,6 @@ server:
     extraPorts: []
     sessionAffinity: None
     sessionAffinityConfig: {}
-  externalURL: ""
   ingress:
     enabled: false
     annotations: {}
@@ -115,7 +115,7 @@ server:
     tls: []
 
 postgresql:
-  enabled: true
+  enabled: false
   image:
     tag: 16.4.0-debian-12-r21
   primary:
@@ -156,7 +156,7 @@ backup:
     failureThreshold: 6
     successThreshold: 1
   startupProbe:
-    enabled: false
+    enabled: true
     initialDelaySeconds: 10
     periodSeconds: 10
     timeoutSeconds: 1
@@ -164,11 +164,11 @@ backup:
     successThreshold: 1
   resourcesPreset: "nano"
   podSecurityContext:
-    enabled: true
+    enabled: false
     fsGroupChangePolicy: Always
     fsGroup: 1001
   containerSecurityContext:
-    enabled: true
+    enabled: false
     seLinuxOptions: {}
     runAsUser: 1001
     runAsGroup: 1001
