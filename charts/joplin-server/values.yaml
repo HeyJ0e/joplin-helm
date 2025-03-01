@@ -12,7 +12,7 @@ server:
   image:
     registry: docker.io
     repository: joplin/server
-    tag: 3.0.1-beta
+    tag: 3.3.3-beta
     pullPolicy: IfNotPresent
     pullSecrets: []
     debug: false
