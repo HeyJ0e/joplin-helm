@@ -15,6 +15,7 @@ gh-pages.zip
 # Outputs directories
 dist/
 repo/
+charts/*/charts
 
 # Unit test for helm
 __snapshot__
@@ -25,7 +26,6 @@ __snapshot__
 
 # IDEs
 .idea
-.vscode
 
 # Misc
 Chart.lock

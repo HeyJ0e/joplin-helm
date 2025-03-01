@@ -1,8 +1,8 @@
 apiVersion: v2
 name: joplinserver
 description: Joplin server
-version: 0.1.0
-appVersion: "3.0.1-beta"
+version: 0.2.0
+appVersion: "3.3.1-beta"
 type: application
 home: https://joplinapp.org
 icon: https://github.com/laurent22/joplin/raw/refs/heads/dev/Assets/JoplinIcon.svg
@@ -16,6 +16,6 @@ dependencies:
   repository: oci://registry-1.docker.io/bitnamicharts
   version: 2.x.x
 - name: postgresql
-  repository: https://charts.bitnami.com/bitnami
+  repository: oci://registry-1.docker.io/bitnamicharts
   version: ~15.5.0
   condition: postgresql.enabled

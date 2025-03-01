@@ -107,10 +107,8 @@ spec:
           env:
             - name: APP_PORT
               value: {{ .Values.server.containerPorts.joplin | quote }}
-            {{- if .Values.server.ingress.enabled }}
             - name: APP_BASE_URL
-              value: {{ .Values.server.externalURL | quote }}
-            {{- end }}
+              value: {{ .Values.server.appBaseURL | quote }}
             - name: DB_CLIENT
               value: {{ .Values.postgresql.enabled | ternary "pg" "sqlite3" | quote }}
             {{- if .Values.postgresql.enabled }}
@@ -171,7 +169,7 @@ spec:
             {{- include "common.tplvalues.render" (dict "value" .Values.server.extraContainerPorts "context" $) | nindent 12 }}
             {{- end }}
           {{- if not .Values.diagnosticMode.enabled }}
-          {{- $probeHost := include "joplin.baseURL" (dict "url" .Values.server.externalURL) -}}
+          {{- $probeHost := include "joplin.baseURL" (dict "url" .Values.server.appBaseURL) -}}
           {{- if .Values.server.customLivenessProbe }}
           livenessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.server.customLivenessProbe "context" $) | nindent 12 }}
           {{- else if .Values.server.livenessProbe.enabled }}
