@@ -2,7 +2,7 @@ apiVersion: v2
 name: joplinserver
 description: Joplin server
 version: 0.2.0
-appVersion: "3.3.1-beta"
+appVersion: "3.3.3-beta"
 type: application
 home: https://joplinapp.org
 icon: https://github.com/laurent22/joplin/raw/refs/heads/dev/Assets/JoplinIcon.svg
