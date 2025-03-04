@@ -29,3 +29,7 @@ helm show values joplin-server/joplin-server > values.yaml
 helm delete joplin-server
 helm repo remove joplin-server
 ```
+
+## License
+
+[MIT](LICENSE)
