@@ -12,7 +12,7 @@ metadata:
   {{- end }}
 spec:
   {{- if not .Values.server.autoscaling.hpa.enabled }}
-  replicas: {{ .Values.server.replicaCount }}
+  replicas: {{ .Values.server.replicas }}
   {{- end }}
   {{- if .Values.server.updateStrategy }}
   strategy: {{- toYaml .Values.server.updateStrategy | nindent 4 }}

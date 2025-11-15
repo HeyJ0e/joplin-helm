@@ -1,23 +1,33 @@
-global:
-  imageRegistry: ""
-  imagePullSecrets: []
-  defaultStorageClass: ""
-  postgresql:
-    auth:
-      username: joplin
-      password: joplin
-      database: joplin
+# Default values for Joplin server Helm chart
+# This is a YAML-formatted file.
 
+# -- Global configuration for all components.
+global:
+  # -- Joplin server image host registry.
+  imageRegistry: ""
+  # -- Pull secret for fetching Joplin container image.
+  imagePullSecrets: []
+  # -- Default storage class for persistent volumes.
+  defaultStorageClass: ""
+
+# -- Configuration for Joplin server.
 server:
+  # -- Joplin server image settings.
   image:
+    # -- Joplin server image host registry.
     registry: docker.io
+    # -- Joplin server image name.
     repository: joplin/server
+    # -- Joplin server image tag.
     tag: 3.3.3-beta
+    # -- Joplin server image pull policy.
     pullPolicy: IfNotPresent
+    # -- Joplin server image pull secrets.
     pullSecrets: []
+    # -- For extra information on logs, set this to true.
     debug: false
-  resourcesPreset: "small"
-  replicaCount: 1
+  # -- Number of pods of the server deployment.
+  replicas: 1
   containerPorts:
     joplin: 22300
   appBaseURL: "http://localhost:22300"
@@ -28,6 +38,8 @@ server:
     volumeName: ""
     mountPath: /data
     subPath: "files"
+  resourcesPreset: "small"
+  resources: {}
   podSecurityContext:
     enabled: false
     fsGroupChangePolicy: Always
@@ -114,24 +126,37 @@ server:
     pathType: Prefix
     tls: []
 
+# -- Configuration for PostgreSQL database used by Joplin Server.
+# Refer to https://github.com/bitnami/charts/blob/main/bitnami/postgresql/ for possible values.
 postgresql:
+  # -- Enable the Bitnami PostgreSQL chart to use it instead of SQLite.
   enabled: false
   image:
     tag: 16.4.0-debian-12-r21
+  auth:
+    # -- Username for the PostgreSQL database.
+    username: joplin
+    # -- Password for the PostgreSQL database. Ignored if `auth.existingSecret` is provided.
+    password: j0pl1n-s3rv3r
+    # -- Database name for the PostgreSQL database.
+    database: joplin
+    # -- Name of existing secret to use for PostgreSQL credentials. `auth.password` will be ignored and picked up from this secret.
+    existingSecret: ""
+    # -- Name of key in existing secret to use for PostgreSQL credentials. Only used when `auth.existingSecret` is set.
+    secretKeys:
+      # -- Name of key for joplin user.
+      userPasswordKey: password
+  # -- PostgreSQL Primary instance parameters.
   primary:
+    # -- Resource requests and limits preset.
+    # More information: https://github.com/bitnami/charts/blob/main/bitnami/common/templates/_resources.tpl#L15
     resourcesPreset: "small"
-    primary:
-      persistence:
-        enabled: true
-        size: 2Gi
-      networkPolicy:
-        allowExternal: false
-        allowExternalEgress: false
-  metrics:
-    enabled: false
-    prometheusRule:
-      enabled: false
-      namespace: ""
+    # -- PostgreSQL persistence configuration.
+    persistence:
+      # -- Enable data persistence using PVC.
+      enabled: true
+      # -- PVC storage size request for the PostgreSQL volume.
+      size: 2Gi
 
 backup:
   enabled: false
